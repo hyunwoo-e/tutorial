@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.organogram.tutorial.api.organization.OrganizationDAO">
+    <insert id="insertOrganization">
+        <selectKey resultType="string" keyProperty="organizationId" order="BEFORE">
+          SELECT MAX(organization_id) + 1 FROM tb_organization
+        </selectKey>
+        INSERT INTO tb_organization (
+        organization_id,
+        organization_name,
+        regist_ymdt,
+        modify_ymdt
+        ) VALUES (
+        #{organizationId},
+        #{organizationName},
+        NOW(),
+        NOW()
+        )
+    </insert>
+
+    <select id="selectOrganization" resultType="com.organogram.tutorial.model.Organization">
+        SELECT
+        organization_id AS organizationId,
+        organization_name AS organizationName
+        FROM
+        tb_organization
+        WHERE
+        organization_id = #{organizationId}
+    </select>
+
+    <delete id="deleteOrganization">
+        delete FROM tb_organization
+        WHERE organization_id = #{organizationId}
+    </delete>
+
+    <update id="updateOrganization">
+        update tb_organization
+        SET
+        <if test="organizationName != null">
+            organization_name = #{organizationName},
+        </if>
+        modify_ymdt = NOW()
+        WHERE
+        organization_id = #{organizationId}
+    </update>
+</mapper>
