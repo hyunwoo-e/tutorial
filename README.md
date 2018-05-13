@@ -5,3 +5,10 @@
 - OS : Windows 10
 - BE : Spring Framework 4.x
 - FE : React, NodeJS 10.0
+
+### FE 빌드
+```
+npm install -g create-react-app
+create-react-app <AppName>
+npm run build
+```
